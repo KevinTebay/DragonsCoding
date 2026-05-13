@@ -14,35 +14,53 @@ def add_score():
     name = name_entry.get()
     score = score_entry.get()
 
-    # Check if the score is a number
+    # Check if the score is a whole number
     if score.isdigit() == True:
 
         # Convert score into an integer
         score = int(score)
 
-        # Store data in the lists
-        names.append(name)
-        scores.append(score)
+        # Validate the score range
+        if score >= 0 and score <= 100:
 
-        # Display the student in the listbox
-        score_list.insert(
-            tk.END,
-            name + " - " + str(score)
-        )
+            # Store data in the lists
+            names.append(name)
+            scores.append(score)
 
-        # Clear the input boxes
-        name_entry.delete(0, tk.END)
-        score_entry.delete(0, tk.END)
+            # Display the student in the listbox
+            score_list.insert(
+                tk.END,
+                name + " - " + str(score)
+            )
 
-        # Show how many students have been entered
-        output_label.config(
-            text="Students entered: " + str(len(names)) + "/8"
-        )
+            # Clear the input boxes
+            name_entry.delete(0, tk.END)
+            score_entry.delete(0, tk.END)
+
+            # Show how many students have been entered
+            output_label.config(
+                text="Students entered: " + str(len(names)) + "/8"
+            )
+
+        else:
+
+            # Score is outside the valid range
+            output_label.config(
+                text="Score must be between 0 and 100. Please re-enter the score."
+            )
+
+            # Clear only the score box
+            score_entry.delete(0, tk.END)
 
     else:
+
+        # Score is not a number
         output_label.config(
-            text="Score must be a whole number."
+            text="Score must be a whole number. Please re-enter the score."
         )
+
+        # Clear only the score box
+        score_entry.delete(0, tk.END)
 
 
 # Function to calculate awards
@@ -111,7 +129,7 @@ window.geometry("500x600")
 
 title_label = tk.Label(
     window,
-    text="Dragons Coding Challenge Awards",
+    text="🐉 Dragons Coding Challenge Awards",
     font=("Arial", 18)
 )
 title_label.pack(pady=10)
@@ -166,7 +184,8 @@ award_button.pack(pady=10)
 output_label = tk.Label(
     window,
     text="",
-    justify="left"
+    justify="left",
+    wraplength=400
 )
 output_label.pack(pady=20)
 
